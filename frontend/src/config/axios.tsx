@@ -1,0 +1,20 @@
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+    baseURL: "/api"
+});
+
+axiosInstance.interceptors.response.use(
+    response => response,
+    async (error) => {
+        if (axios.isAxiosError(error)) {
+            const customMessage = error.response?.data?.message || error.message || 'Something went wrong.';
+            return Promise.reject(new Error(customMessage));
+        }
+
+        return Promise.reject(new Error('Unexpected error occurred.'));
+    }
+);
+
+
+export default axiosInstance;
