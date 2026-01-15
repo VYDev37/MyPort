@@ -10,6 +10,10 @@
       "destination": "/frontend/dist/assets/$1"
     },
     {
+      "source": "/favicon.svg",
+      "destination": "/frontend/dist/favicon.svg"
+    },
+    {
       "source": "/(.*)",
       "destination": "/frontend/dist/index.html"
     }
