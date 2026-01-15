@@ -43,6 +43,7 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 
 	request, _ := http.NewRequest("GET", "https://api.github.com/users/vydev37/repos?per_page=50", nil)
 	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	request.Header.Set("Accept", "application/vnd.github+json")
 
 	resp, err := client.Do(request)
 	if err != nil {
@@ -53,7 +54,7 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 
 	var allRepos []models.Repository
 	if err := json.NewDecoder(resp.Body).Decode(&allRepos); err != nil {
-		http.Error(res, "Gagal parsing JSON", http.StatusInternalServerError)
+		SendMessage(res, http.StatusInternalServerError, "Error when trying to parse the JSON.")
 		return
 	}
 
@@ -68,7 +69,7 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(res).Encode(map[string]interface{}{
-		"works": allRepos,
+		"works": finalRepos,
 	})
 }
 
