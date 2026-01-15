@@ -31,10 +31,17 @@ func AllowCORS(next http.Handler) http.Handler {
 	})
 }
 
-func SendMessage(res http.ResponseWriter, status int, message string) error {
+func SendJSON(res http.ResponseWriter, status int, data any) {
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(status)
-	return json.NewEncoder(res).Encode(map[string]string{"message": message}) // json structure for message
+
+	if err := json.NewEncoder(res).Encode(data); err != nil {
+		fmt.Printf("Error encoding JSON: %v\n", err)
+	}
+}
+
+func SendMessage(res http.ResponseWriter, status int, message string) {
+	SendJSON(res, status, map[string]string{"message": message})
 }
 
 func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
@@ -52,6 +59,15 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		var githubError map[string]interface{}
+		SendJSON(res, resp.StatusCode, map[string]interface{}{
+			"error":   "GitHub API Error",
+			"details": githubError,
+		})
+		return
+	}
+
 	var allRepos []models.Repository
 	if err := json.NewDecoder(resp.Body).Decode(&allRepos); err != nil {
 		SendMessage(res, http.StatusInternalServerError, err.Error())
@@ -65,12 +81,7 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	res.Header().Set("Content-Type", "application/json")
-	res.WriteHeader(http.StatusOK)
-
-	json.NewEncoder(res).Encode(map[string]interface{}{
-		"works": finalRepos,
-	})
+	SendJSON(res, http.StatusOK, map[string]interface{}{"works": finalRepos})
 }
 
 func HandleDownloadCV(res http.ResponseWriter, req *http.Request) {
