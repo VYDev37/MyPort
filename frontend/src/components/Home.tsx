@@ -1,14 +1,14 @@
+import appConfig from "../../app.config";
+
 const Home = () => {
     return (
         <section id="home" className="container-fluid bg-dark text-center py-5 w-100" style={{ height: '80vh' }}>
             <div className="text-warning fs-1 mb-3"></div>
             <div className="mt-5">
                 <h1 className="display-4 fw-bold mb-3">Welcome to my page!</h1>
-                <h2 className="h3 fw-semibold">Hi, I'm <span style={{ color: "var(--fav-color)" }}>Vincent</span>.</h2>
+                <h2 className="h3 fw-semibold">Hi, I'm <span style={{ color: "var(--fav-color)" }}>{appConfig.ownerName}</span>.</h2>
                 <div className="row d-flex fs-5 mt-5 justify-content-center">
-                    <div className="col-10 col-md-5">
-                        I am a full-stack developer who usually uses TypeScript for both Frontend and Backend Development.
-                    </div>
+                    <div className="col-10 col-md-5">{appConfig.ownerDescription}</div>
                 </div>
             </div>
             <div className="col-12 col-md-12 d-flex justify-content-center mt-5">

@@ -7,7 +7,7 @@ const Works = () => {
     const [projects, setProjects] = useState<TypeProject[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const GetProjects = async () => { // manual filter as idk why does the parameter fork=false not working
+    const GetProjects = async () => {
         try {
             setLoading(true);
 
@@ -35,7 +35,7 @@ const Works = () => {
                 <p className="lead">Loading...</p>
             ) : (
                 <div className="row d-flex justify-content-start mx-5 mt-4 g-4 mb-5">
-                    {projects.map((project, idx) => (
+                    {projects && projects.map((project, idx) => (
                         <div className="col-12 col-md-6 col-lg-3" key={idx}>
                             <div className="card bg-dark text-white h-100 border-0 shadow-lg">
                                 <div className="card-body p-4 d-flex flex-column">

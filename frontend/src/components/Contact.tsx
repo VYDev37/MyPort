@@ -1,3 +1,5 @@
+import appConfig from "../../app.config";
+
 const Contact = () => {
     return (
         <section id="contact" className="container-fluid text-center py-5 w-100 bg-dark">
@@ -8,7 +10,7 @@ const Contact = () => {
             <div className="row d-flex justify-content-center">
                 <div className="col-10 col-md-4">
                     <div className="fs-5 d-flex align-items-center">
-                        <a className="mx-auto text-decoration-none text-white" href="https://www.linkedin.com/in/vincent-yu-4048b7363/"><i className="fab fa-linkedin"></i>LinkedIn</a>
+                        <a className="mx-auto text-decoration-none text-white" href={appConfig.linkedinUrl}><i className="fab fa-linkedin"></i>LinkedIn</a>
                     </div>
                 </div>
             </div>

@@ -48,7 +48,9 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 	token := os.Getenv("GITHUB_TOKEN")
 	client := &http.Client{}
 
-	request, _ := http.NewRequest("GET", "https://api.github.com/users/vydev37/repos?per_page=50", nil)
+	githubUsername := "vydev37"
+
+	request, _ := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/users/%s/repos?per_page=50", githubUsername), nil)
 	request.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	request.Header.Set("Accept", "application/vnd.github+json")
 
