@@ -54,7 +54,7 @@ func HandleGetRepos(res http.ResponseWriter, req *http.Request) {
 
 	var allRepos []models.Repository
 	if err := json.NewDecoder(resp.Body).Decode(&allRepos); err != nil {
-		SendMessage(res, http.StatusInternalServerError, "Error when trying to parse the JSON.")
+		SendMessage(res, http.StatusInternalServerError, err.Error())
 		return
 	}
 
